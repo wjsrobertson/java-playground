@@ -1,0 +1,17 @@
+package net.xylophones.megaproxy;
+
+public interface ProxyPlugin {
+
+	/*
+	public void processRequestHeaders() {
+		
+	}
+	
+	public void processRequestBody() {
+		
+	}
+	*/
+	
+	
+	
+}

@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+    xmlns:aop="http://www.springframework.org/schema/aop" xmlns:context="http://www.springframework.org/schema/context"
+    xmlns:jee="http://www.springframework.org/schema/jee" xmlns:tx="http://www.springframework.org/schema/tx"
+    xsi:schemaLocation="
+            http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
+            http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+            http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd
+            http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-2.5.xsd
+            http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd">
+
+    <context:annotation-config />
+
+    <context:component-scan base-package="net.xylophones.midifinder" />
+
+    <tx:annotation-driven  proxy-target-class="true" />
+    
+    <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer"
+    	p:location="classpath:midifinder.properties"
+    />
+	
+    <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource"
+        p:driverClassName="com.mysql.jdbc.Driver" 
+        p:url="jdbc:${db.jdbc.type}://${db.host}/${db.schema}"
+        p:username="${db.user}" 
+        p:password="${db.pass}"
+    />
+
+    <bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean"
+        p:dataSource-ref="dataSource" 
+        p:jpaVendorAdapter-ref="jpaAdapter">
+        <property name="loadTimeWeaver">
+            <bean class="org.springframework.instrument.classloading.InstrumentationLoadTimeWeaver" />
+        </property>
+    </bean>
+
+    <bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager"
+        p:entityManagerFactory-ref="entityManagerFactory" 
+    />
+
+    <bean id="jpaAdapter"
+        class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter"
+        p:database="MYSQL">
+	</bean>
+	
+	<bean name="urlService" class="net.xylophones.midifinder.service.jpa.JpaUrlService"/>
+
+    <!--
+	<bean 	id="urlProcessor" 
+			init-method="init" 
+			destroy-method="shutdown" 
+			class="net.xylophones.midifinder.runner.UrlProcessor">
+		<constructor-arg index="0" ref="urlService"/>
+		<constructor-arg index="1">
+			<bean class="net.xylophones.midifinder.http.IntervalDecoratingRetriever">
+				<constructor-arg index="0">
+					<bean class="net.xylophones.midifinder.http.HttpClientRetriever">
+						<constructor-arg index="0" value="${application.user.agent}"/>
+					</bean>
+				</constructor-arg>
+			</bean>
+		</constructor-arg>
+		<constructor-arg index="2">
+			<bean class="net.xylophones.midifinder.util.ChildUrlParser">
+				<constructor-arg index="0">
+					<bean class="net.xylophones.midifinder.util.TagSoupHtmlTidier"/>
+				</constructor-arg>
+				<constructor-arg index="1">
+					<bean class="net.xylophones.midifinder.util.XPathUrlParser"/>
+				</constructor-arg>
+				<constructor-arg index="2">
+					<bean class="net.xylophones.midifinder.util.UrlCleaner"/>
+				</constructor-arg>
+			</bean>
+		</constructor-arg>
+		<constructor-arg index="3" value="${http.request.body.num.threads}"/>
+		<constructor-arg index="4" value="${http.request.head.num.threads}"/>
+		<constructor-arg index="5" value="${http.request.body.queue.size}"/>
+		<constructor-arg index="6" value="${http.request.head.queue.size}"/>
+	</bean>
+	-->
+	<bean id="htmlUrlProcessor"
+		  init-method="startInNewThread"
+		  destroy-method="shutdown"
+		  class="net.xylophones.midifinder.runner.HtmlUrlProcessor">
+		<constructor-arg index="0" ref="urlService"/>
+		<constructor-arg index="1">
+			<bean class="net.xylophones.midifinder.http.IntervalDecoratingRetriever">
+				<constructor-arg index="0">
+					<bean class="net.xylophones.midifinder.http.HttpClientRetriever">
+						<constructor-arg index="0" value="${application.user.agent}"/>
+					</bean>
+				</constructor-arg>
+			</bean>
+		</constructor-arg>
+		<constructor-arg index="2">
+			<bean class="net.xylophones.midifinder.util.ChildUrlParser">
+				<constructor-arg index="0">
+					<bean class="net.xylophones.midifinder.util.TagSoupHtmlTidier"/>
+				</constructor-arg>
+				<constructor-arg index="1">
+					<bean class="net.xylophones.midifinder.util.XPathUrlParser"/>
+				</constructor-arg>
+				<constructor-arg index="2">
+					<bean class="net.xylophones.midifinder.util.UrlCleaner"/>
+				</constructor-arg>
+			</bean>
+		</constructor-arg>
+		<constructor-arg index="3" value="${http.request.body.num.threads}"/>
+		<constructor-arg index="4" value="${http.request.body.queue.size}"/>
+	</bean>
+
+</beans>

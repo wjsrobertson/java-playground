@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pages>
+	<page name="yahoo">
+		<!--
+		<urls>
+			<url name="gb" value="http://search.yahoo.co.uk" default="true">
+				<aliases>
+					<alias name="fr"/>
+				</aliases>
+			</url>
+			<url name="us" value="http://search.yahoo.com" />
+		</urls>
+		<params>
+			<param name="query" remote="q" method="get" />
+			<param name="language" remote="lang" method="get" default="en" />
+		</params>
+		-->
+		<parse>
+			<expression type="list" name="hrefs" value="/html/body/div/a/@href"/>
+		</parse>
+	</page>
+<pages>
+

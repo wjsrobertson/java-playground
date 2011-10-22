@@ -1,0 +1,34 @@
+8
+
+dir
+17
+svn://laptop/opt/var/repos/subversion/MegaProxy/trunk/test
+svn://laptop/opt/var/repos/subversion
+
+
+
+2008-07-05T22:08:51.601340Z
+17
+poobar
+
+
+svn:special svn:externals svn:needs-lock
+
+
+
+
+
+
+
+
+
+
+
+807913db-acb6-418a-a4af-5c12050cc282
+
+java
+dir
+
+reseources
+dir
+
