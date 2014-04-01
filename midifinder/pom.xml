@@ -61,6 +61,10 @@
             <id>springsource-external</id>
             <url>http://repository.springsource.com/maven/bundles/external</url>
         </repository>
+        <repository>
+            <id>java.net</id>
+            <url>http://download.java.net/maven/2/</url>
+        </repository>
     </repositories>
     <dependencies>
         <dependency>

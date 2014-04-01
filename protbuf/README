@@ -1,0 +1,2 @@
+
+protoc person.proto --java_out=../java/net/xylophones/protbuf/

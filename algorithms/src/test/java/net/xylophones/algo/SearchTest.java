@@ -1,13 +1,13 @@
 package net.xylophones.algo;
 
-import static net.xylophones.algo.search.CellContents.*;
+import static net.xylophones.algo.search.citibank.CellContents.*;
 
-import net.xylophones.algo.search.CellContents;
-import net.xylophones.algo.search.MazeGenerator;
-import net.xylophones.algo.search.MazeNode;
-import net.xylophones.algo.search.Node;
-import net.xylophones.algo.search.NodeProcessor;
-import net.xylophones.algo.search.Searcher;
+import net.xylophones.algo.search.citibank.CellContents;
+import net.xylophones.algo.search.citibank.MazeGenerator;
+import net.xylophones.algo.search.citibank.MazeNode;
+import net.xylophones.algo.search.citibank.Node;
+import net.xylophones.algo.search.citibank.NodeProcessor;
+import net.xylophones.algo.search.citibank.Searcher;
 
 import org.junit.Test;
 import org.slf4j.Logger;

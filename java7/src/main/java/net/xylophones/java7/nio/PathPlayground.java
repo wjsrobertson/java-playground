@@ -6,13 +6,11 @@ import java.nio.file.*;
 public class PathPlayground {
 
     public static void main(String[] args) throws IOException, InterruptedException {
-        //doPathStuff();
-
         Path path = Paths.get("D:/temp");
         WatchService watchService = path.getFileSystem().newWatchService();
 
         path.register(watchService,
-                StandardWatchEventKind.ENTRY_CREATE, StandardWatchEventKind.ENTRY_DELETE, StandardWatchEventKind.ENTRY_MODIFY);
+                StandardWatchEventKinds.ENTRY_CREATE, StandardWatchEventKinds.ENTRY_DELETE, StandardWatchEventKinds.ENTRY_MODIFY);
 
         while (true) {
             WatchKey take = watchService.take();
