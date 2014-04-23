@@ -37,6 +37,7 @@ public class BlockingCountingCircularQueue {
         }
 
         Object obj = elements[start];
+        elements[start] = null;
         start = (start + 1) % elements.length;
         numElements--;
 
