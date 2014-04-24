@@ -20,7 +20,7 @@ CREATE TABLE url (
   KEY host_path (host,path),
   KEY unlocked_status_mime_type (status,mime_type,locked_date,status_code),
   KEY unlocked_status (locked_date,status_code)
-) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=ascii;
 
 ================================================================================================
 
@@ -51,14 +51,15 @@ WHERE mime_type='audio/midi';
  INSERT INTO url SET create_date=NOW(), status='NEW', depth=0, scheme='http', host='midi.dubroom.org', path='/';
  
 
-
+DROP PROCEDURE IF EXISTS create_url;
 DELIMITER $$
-CREATE PROCEDURE create_url (IN url_host VARCHAR(255), IN url_path VARCHAR(255))                   
+CREATE PROCEDURE create_url (IN url_host VARCHAR(255), IN url_path VARCHAR(255))
 BEGIN                                                                     
-  INSERT INTO url SET create_date=NOW(), status='NEW', depth=0, scheme='http',  host=url_host, path=url_path; 
+  INSERT INTO url SET create_date=NOW(), status='NEW', depth=0, scheme='http',  host=url_host, path=url_path, mime_type='text/html', status_code=200;
 END$$
 DELIMITER ;
 
+DROP PROCEDURE IF EXISTS num_by_host;
 DELIMITER $$
 CREATE  PROCEDURE num_by_host ()                   
 BEGIN                                                                     
@@ -141,46 +142,42 @@ CALL create_url('www.harmony-central.com', '/MIDI/files.html');
 
 # - - - - - - - - - - - - - - - - - - - - - - - - 
 
-
-
-CALL create_url('http://www.lionking.org/~br/sounds/midi/', '');
-CALL create_url('http://gamma.nic.fi/~rikuh/main/music/', '');
-CALL create_url('http://people.freebsd.org/~nik/80days/', '');
-CALL create_url('http://www.artmaker.com/Midis/', '');
-CALL create_url('http://www.zaxpax.com/midis/', '');
-CALL create_url('http://www.nineveh.com/midi/', '');
-CALL create_url('http://www.davidyounker.com/midi/', '');
-CALL create_url('http://www.poetryhere.com/midi/', '');
-CALL create_url('http://www.worldcomposition.com/piano/Midi/', '');
-CALL create_url('http://www.michiganbands.com/michigan-music/index-of-mp3.html', '');
-CALL create_url('http://ftp.sunet.se/pub/music/midi/mirror.filecity/christian_music/', '');
-CALL create_url('http://home.the-wire.com/~pamc/', '');
-CALL create_url('http://www.mboss.force9.co.uk/gm-ccfx/', '');
-CALL create_url('http://www.cs.ucla.edu/~phantom/sounds/', '');
-CALL create_url('http://playmaster101.com/AUDIO/MIDI/DRUMS/', '');
-CALL create_url('http://www.minor9.com/midi/', '');
-CALL create_url('http://www.mauro.com.br/rock/mids/deszipados/', '');
-CALL create_url('http://fios.jefftrout.com:8080/~jw/midi/Metallica/moremoremore/', '');
-CALL create_url('http://www.dactar.ch/mious-data/midi/ULTIMA/ULTIMA_VII/Black_Gate/', '');
-CALL create_url('http://sep800.mine.nu/files/ringtones/O-Tones/', '');
-CALL create_url('http://battle.netgate.net/', '');
-CALL create_url('', '');
-CALL create_url('', '');
-CALL create_url('', '');
-CALL create_url('', '');
-CALL create_url('', '');
-CALL create_url('', '');
-CALL create_url('', '');
-CALL create_url('', '');
-CALL create_url('', '');
-CALL create_url('', '');
-CALL create_url('', '');
-CALL create_url('', '');
-CALL create_url('', '');
-CALL create_url('', '');
-CALL create_url('', '');
-CALL create_url('', '');
-
+CALL create_url('www.lionking.org', '/~br/sounds/midi/');
+CALL create_url('gamma.nic.fi', '/~rikuh/main/music/');
+CALL create_url('people.freebsd.org', '/~nik/80days/');
+CALL create_url('www.artmaker.com', '/Midis/');
+CALL create_url('www.zaxpax.com', '/midis/');
+CALL create_url('www.nineveh.com', '/midi/');
+CALL create_url('www.davidyounker.com', '/midi/');
+CALL create_url('www.poetryhere.com', '/midi/');
+CALL create_url('www.worldcomposition.com', '/piano/Midi/');
+CALL create_url('www.michiganbands.com', '/michigan-music/index-of-mp3.html');
+CALL create_url('ftp.sunet.se', '/pub/music/midi/mirror.filecity/christian_music/');
+CALL create_url('home.the-wire.com', '/~pamc/');
+CALL create_url('www.mboss.force9.co.uk', '/gm-ccfx/');
+CALL create_url('www.cs.ucla.edu', '/~phantom/sounds/');
+CALL create_url('playmaster101.com', '/AUDIO/MIDI/DRUMS/');
+CALL create_url('www.minor9.com', '/midi/');
+CALL create_url('www.mauro.com.br', '/rock/mids/deszipados/');
+CALL create_url('www.dactar.ch', '/mious-data/midi/ULTIMA/ULTIMA_VII/Black_Gate/');
+CALL create_url('sep800.mine.nu', '/files/ringtones/O-Tones/');
+CALL create_url('battle.netgate.net', '/');
+CALL create_url('sprott.physics.wisc.edu', '/midi/');
+CALL create_url('www.ajsmidi.com', '/poprock/midi/');
+CALL create_url('www.poetryhere.com', '/midi/');
+CALL create_url('www.tski.co.jp', '/baldio/midi/');
+CALL create_url('goran.tangring.com', '/midis/');
+CALL create_url('www.swissdom.cc', '/midis/karaoke-internacional-1/a/');
+CALL create_url('www.westnet.com', '/Halloween/midi/');
+CALL create_url('mmacdonald.com', '/midi/?path=XG/');
+CALL create_url('tgv777.free.fr', '/Midi%20filesEtKar/Midis_Divers/Midi%20Songs%20(20000)/Medley\'s%20Diversen/Latin%20Medley\'s/');
+CALL create_url('www.erikaweb.com', '/midi/files/dance/?');
+CALL create_url('www.dosguys.com', '/JCS/MIDI');
+CALL create_url('bob.bmcadvies.com', '/Midi/?');
+CALL create_url('gerryradim.sweb.cz', '/mid.htm');
+CALL create_url('andrelouis.com', '/midi/classical/');
+CALL create_url('www.ossh.com', '/midi/sound/classic');
+CALL create_url('artscene.textfiles.com', '/music/midi/p/');
 
 # - - - - - - - - - - - - - - - - - - - - - - - - 
 
