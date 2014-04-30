@@ -25,11 +25,7 @@ public class ConcurrentLoader {
     }
 
     public String getInstance() {
-        if (counter.incrementAndGet() % numBeforeRequest == numBeforeRequest) {
-            executor.submit(() -> {
-                queue.addAll(getNewElements(numToRequest));
-            });
-        }
+        startRequestThreadIfRequired();
 
         try {
             return queue.take();
@@ -38,9 +34,17 @@ public class ConcurrentLoader {
         }
     }
 
+    private void startRequestThreadIfRequired() {
+        int requestOffset = numToRequest - numBeforeRequest;
+        if (counter.incrementAndGet() % numBeforeRequest == requestOffset) {
+            executor.submit(() -> {
+                queue.addAll(getNewElements(numToRequest));
+            });
+        }
+    }
+
     private List<String> getNewElements(int numToGet) {
         return new ArrayList<>();
     }
-
 
 }
