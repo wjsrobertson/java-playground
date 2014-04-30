@@ -56,7 +56,7 @@ public class HtmlUrlProcessor {
 			retrieveChildrenService = null;
 		}
 	}
-	
+
 	public void shutdown() {
 		log.debug("Shutting down url processor");
         

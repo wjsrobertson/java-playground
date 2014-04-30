@@ -46,8 +46,7 @@
 	
 	<bean name="urlService" class="net.xylophones.midifinder.service.jpa.JpaUrlService"/>
 
-    <!--
-	<bean 	id="urlProcessor" 
+	<bean 	id="urlProcessor"
 			init-method="init" 
 			destroy-method="shutdown" 
 			class="net.xylophones.midifinder.runner.UrlProcessor">
@@ -79,7 +78,7 @@
 		<constructor-arg index="5" value="${http.request.body.queue.size}"/>
 		<constructor-arg index="6" value="${http.request.head.queue.size}"/>
 	</bean>
-	-->
+
 	<bean id="htmlUrlProcessor"
 		  init-method="startInNewThread"
 		  destroy-method="shutdown"

@@ -68,7 +68,7 @@ public class Url implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name="id")
-	private int id = -1;
+	private Integer id = -1;
 	
 	private String scheme;
 	
@@ -83,7 +83,7 @@ public class Url implements Serializable {
 
 	private String query = "".intern();
 	
-	@Column(name="anchor_text", length=4)
+	@Column(name="anchor_text", length=4096)
 	private String anchorText;
 	
 	@Column(name="mime_type")

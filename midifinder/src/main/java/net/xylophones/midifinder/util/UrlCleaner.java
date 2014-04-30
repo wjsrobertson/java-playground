@@ -14,7 +14,7 @@ public class UrlCleaner {
 			return path;
 		}
 		
-		log.debug("Cleaning: " + path);
+		log.trace("Cleaning: " + path);
 		
 		int loop = 0;
 		while (path.matches("^/\\.\\./.*")) {
@@ -39,7 +39,8 @@ public class UrlCleaner {
 				throw new RuntimeException("Loop count exceeded for: " + path);
 			}
 		}
-		log.debug("Cleaned: " + path);
+
+		log.trace("Cleaned: " + path);
 
 		return path;
 	}	

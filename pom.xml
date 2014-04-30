@@ -20,6 +20,8 @@
 		<module>nio</module>
 		<module>midi</module>
         <module>protbuf</module>
+        <module>mongo</module>
+        <module>testing</module>
 	</modules>
 
     <build>
