@@ -18,6 +18,7 @@ import org.apache.http.util.EntityUtils;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
 
 import static org.apache.http.client.utils.HttpClientUtils.closeQuietly;
@@ -66,6 +67,12 @@ public class CameraConnection {
         } finally {
             closeQuietly(httpclient);
         }
+    }
+
+    public CloseableHttpResponse getVideoStream() throws IOException {
+        HttpGet httpget = new HttpGet("http://192.168.1.6:81/videostream.cgi?loginuse=admin&loginpas=admin123");
+
+        return httpclient.execute(httpget);
     }
 
     public void y() throws IOException {

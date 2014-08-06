@@ -1,8 +1,6 @@
 package net.xylophones.fotilo;
 
 import net.xylophones.fotilo.io.CameraConnection;
-import org.apache.http.auth.AuthScope;
-import org.apache.http.auth.UsernamePasswordCredentials;
 
 /**
  */
