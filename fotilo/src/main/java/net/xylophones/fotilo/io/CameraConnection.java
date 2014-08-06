@@ -50,10 +50,16 @@ public class CameraConnection {
                 .build();
     }
 
+    /*
+        HTTP/1.1 200 OK
+        Server: ImagiaTek
+        Accept-Ranges: bytes
+        Content-Type: multipart/x-mixed-replace;boundary=ipcamera
+        Connection: close
+     */
     public void streamImage(OutputStream outputStream) throws IOException {
         HttpGet httpget = new HttpGet("http://192.168.1.6:81/videostream.cgi?loginuse=admin&loginpas=admin123");
 
-        System.out.println("Executing request " + httpget.getRequestLine());
         CloseableHttpResponse response = httpclient.execute(httpget);
         try {
             IOUtils.copy(response.getEntity().getContent(), outputStream);
