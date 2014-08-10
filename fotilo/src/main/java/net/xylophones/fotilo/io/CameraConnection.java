@@ -1,5 +1,6 @@
 package net.xylophones.fotilo.io;
 
+import net.xylophones.fotilo.common.Direction;
 import org.apache.commons.io.IOUtils;
 import org.apache.http.HttpHost;
 import org.apache.http.auth.AuthScope;
@@ -20,16 +21,37 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.Map;
 
+import static com.google.common.collect.Maps.newHashMap;
+import static java.lang.String.format;
 import static org.apache.http.client.utils.HttpClientUtils.closeQuietly;
 
 /**
  * TODO - use response handling instead
- *
+ * <p>
  * http://hc.apache.org/httpcomponents-client-4.4.x/httpclient/examples/org/apache/http/examples/client/ClientWithResponseHandler.java
+ *
+ * JPT3815W
+ * TR3818
  */
 public class CameraConnection {
 
+    private static Map<Direction, Integer> directionsCommands = newHashMap();
+
+    static {
+        directionsCommands.put(Direction.UP, 0);
+        directionsCommands.put(Direction.UP_LEFT, 92);
+        directionsCommands.put(Direction.UP_RIGHT, 91);
+        directionsCommands.put(Direction.LEFT, 5);
+        directionsCommands.put(Direction.DOWN, 2);
+        directionsCommands.put(Direction.DOWN_RIGHT, 93);
+        directionsCommands.put(Direction.DOWN_LEFT, 92);
+        directionsCommands.put(Direction.RIGHT, 6);
+    }
+
+    private static final int COMMAND_STOP = 1;
+    private static final int STATUS_CODE_SUCCESS = 200;
 
     private final CloseableHttpClient httpclient;
     private final String host;
@@ -51,26 +73,30 @@ public class CameraConnection {
                 .build();
     }
 
-    /*
-        HTTP/1.1 200 OK
-        Server: ImagiaTek
-        Accept-Ranges: bytes
-        Content-Type: multipart/x-mixed-replace;boundary=ipcamera
-        Connection: close
-     */
-    public void streamImage(OutputStream outputStream) throws IOException {
-        HttpGet httpget = new HttpGet("http://192.168.1.6:81/videostream.cgi?loginuse=admin&loginpas=admin123");
+    public boolean move(Direction direction) throws IOException {
+        Integer command = directionsCommands.get(direction);
+        return executeCommand(command);
+    }
 
+    public boolean stopMovement() throws IOException {
+        return executeCommand(COMMAND_STOP);
+    }
+
+    private boolean executeCommand(int command) throws IOException {
+        String url = createDecoderControlCommandUrl(command);
+        HttpGet httpget = new HttpGet(url);
         CloseableHttpResponse response = httpclient.execute(httpget);
-        try {
-            IOUtils.copy(response.getEntity().getContent(), outputStream);
-        } finally {
-            closeQuietly(httpclient);
-        }
+        closeQuietly(response);
+        return response.getStatusLine().getStatusCode() == STATUS_CODE_SUCCESS;
+    }
+
+    private String createDecoderControlCommandUrl(int command) {
+        return "http://" + host + ":" + port + "/decoder_control.cgi?loginuse=" + user + "&loginpas=" + pass + "&command=" + command + "&onestep=0";
     }
 
     public CloseableHttpResponse getVideoStream() throws IOException {
-        HttpGet httpget = new HttpGet("http://192.168.1.6:81/videostream.cgi?loginuse=admin&loginpas=admin123");
+        String uri = "http://" + host + ":" + port + "/videostream.cgi?loginuse=" + user + "&loginpas=" + pass;
+        HttpGet httpget = new HttpGet(uri);
 
         return httpclient.execute(httpget);
     }
