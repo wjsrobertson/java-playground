@@ -10,6 +10,7 @@
 	<modules>
 		<module>algorithms</module>
 		<module>java7</module>
+		<module>java8</module>
 		<module>jobfinder</module>
 		<module>megaproxy</module>
 		<module>midifinder</module>
@@ -22,6 +23,7 @@
         <module>protbuf</module>
         <module>mongo</module>
         <module>testing</module>
+		<module>../../IntellijProjects/general/java8</module>
 	</modules>
 
     <build>
