@@ -57,7 +57,7 @@ public class ReflectionTest {
     private Object getTestValueToSet(Class<?> paramterType) {
         Object testValue = TEST_TYPE_VALUES.get(paramterType);
         if (testValue == null) {
-            fail("Please specify a test value for type " + paramterType.getSimpleName() +
+            fail("Please update test - specify a test value for type " + paramterType.getSimpleName() +
                     " in TEST_TYPE_VALUES so copy Builder correctness can be tested");
         }
         return testValue;
@@ -70,7 +70,7 @@ public class ReflectionTest {
                 Object copyValue = method.invoke(copy);
 
                 assertEquals(method.getName() + " returns different value after object is copied. "
-                        +"Did you set the value from the copy in DomainObject.Builder.Builder(DomainObject)",
+                        +"Did you set the value from the copy in DomainObject.Builder.Builder(DomainObject)?",
                         originalValue, copyValue);
             }
         }
