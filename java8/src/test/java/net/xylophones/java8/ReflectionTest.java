@@ -34,22 +34,33 @@ public class ReflectionTest {
     }
 
     private DomainObject createDomainObjectInstanceWithAllFieldsSetToTestValues() throws IllegalAccessException, InvocationTargetException {
-        Class<DomainObject.Builder> domainObjectClass = DomainObject.Builder.class;
         DomainObject.Builder builderInstance = DomainObject.builder();
 
-        for (Method method : domainObjectClass.getDeclaredMethods()) {
+        setTestValuesForAllFields( builderInstance);
+
+        return builderInstance.build();
+    }
+
+    private void setTestValuesForAllFields(DomainObject.Builder builderInstance) throws IllegalAccessException, InvocationTargetException {
+        for (Method method : builderInstance.getClass().getDeclaredMethods()) {
             if (isSetter(method)) {
-                Class<?> paramterType = method.getParameterTypes()[0];
-                Object testValue = TEST_TYPE_VALUES.get(paramterType);
-                if (testValue == null) {
-                    fail("Please specify a test value for type " + paramterType.getSimpleName() +
-                            " in TEST_TYPE_VALUES so copy Builder correctness can be tested");
-                }
+                Object testValue = getTestValueToSet(method.getParameterTypes()[0]);
                 method.invoke(builderInstance, testValue);
             }
         }
+    }
 
-        return builderInstance.build();
+    private boolean isSetter(Method declaredMethod) {
+        return declaredMethod.getName().startsWith("set") && declaredMethod.getParameterTypes().length == 1;
+    }
+
+    private Object getTestValueToSet(Class<?> paramterType) {
+        Object testValue = TEST_TYPE_VALUES.get(paramterType);
+        if (testValue == null) {
+            fail("Please specify a test value for type " + paramterType.getSimpleName() +
+                    " in TEST_TYPE_VALUES so copy Builder correctness can be tested");
+        }
+        return testValue;
     }
 
     private void assertFieldsAreTheSame(DomainObject original, DomainObject copy) throws IllegalAccessException, InvocationTargetException {
@@ -69,7 +80,4 @@ public class ReflectionTest {
         return method.getName().startsWith("get") && method.getParameterTypes().length == 0;
     }
 
-    private boolean isSetter(Method declaredMethod) {
-        return declaredMethod.getName().startsWith("set") && declaredMethod.getParameterTypes().length == 1;
-    }
 }
