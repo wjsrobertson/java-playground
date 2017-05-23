@@ -11,15 +11,9 @@
 		<module>algorithms</module>
 		<module>java7</module>
 		<module>java8</module>
-		<module>jobfinder</module>
-		<module>megaproxy</module>
-		<module>midifinder</module>
 		<module>threadtest</module>
-		<module>webfetcher</module>
 		<module>concurrency</module>
-		<module>springserver</module>
 		<module>nio</module>
-		<module>midi</module>
         <module>protbuf</module>
         <module>mongo</module>
         <module>testing</module>
