@@ -4,3 +4,5 @@
 .project
 .settings/
 algorithms/target/
+.idea
+**/*.iml

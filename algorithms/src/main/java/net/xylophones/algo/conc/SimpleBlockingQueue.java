@@ -29,7 +29,7 @@ public class SimpleBlockingQueue<T> {
             }
 
             contents.add(obj);
-            notEmpty.notify();
+            notEmpty.signal();
         } finally {
             lock.unlock();
         }
